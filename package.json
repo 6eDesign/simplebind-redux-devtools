@@ -1,0 +1,38 @@
+{
+  "name": "simplebind-redux-devtools",
+  "version": "0.0.1",
+  "description": "Connector between simplebind.js and redux devtools",
+  "main": "dist/simplebind-redux-devtools.cjs.js",
+  "module": "dist/simplebind-redux-devtools.esm.js",
+  "browser": "dist/simplebind-redux-devtools.umd.js",
+  "scripts": {
+    "build": "env buildTarget=prod node_modules/.bin/rollup -c",
+    "dev": "node_modules/.bin/rollup -c -w"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "rollup": "^0.66.0",
+    "rollup-plugin-buble": "^0.19.2",
+    "rollup-plugin-commonjs": "^9.1.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^6.0.0",
+    "simplebind.js": "^2.0.0-alpha2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/6eDesign/simplebind-redux-devtools.git"
+  },
+  "keywords": [
+    "js",
+    "data-binding",
+    "devtools",
+    "extension",
+    "redux"
+  ],
+  "author": "Jonathan Greenemeier <Jon@6eDesign.net> (https://github.com/6edesign)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/6eDesign/simplebind-redux-devtools/issues"
+  },
+  "homepage": "https://github.com/6eDesign/simplebind-redux-devtools#readme"
+}
