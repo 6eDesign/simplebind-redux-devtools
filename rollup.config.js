@@ -2,6 +2,7 @@ import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import { uglify } from "rollup-plugin-uglify";
 import buble from 'rollup-plugin-buble';
+import multiEntry from 'rollup-plugin-multi-entry';
 import pkg from './package.json';
 
 let isProd = process.env.buildTarget == 'prod';
@@ -20,7 +21,9 @@ export default [
 	// browser-friendly UMD build
 	{
     input: 'index.js',
-    external: ['simplebind.js'],
+    external: [
+			...Object.keys(pkg.devDependencies || {}),
+		],
 		output: {
 			name: 'simplebind-redux-devtools',
 			file: pkg.browser,
@@ -28,7 +31,7 @@ export default [
 			sourcemap: true
 		},
 		plugins
-	},
+  },
 
 	// CommonJS (for Node) and ES module (for bundlers) build.
 	// (We could have three entries in the configuration array
@@ -38,7 +41,9 @@ export default [
 	// `file` and `format` for each target)
 	{
 		input: 'index.js',
-		external: ['simplebind.js'],
+		external: [
+			...Object.keys(pkg.devDependencies || {})
+		],
 		output: [
 			{ file: pkg.main, format: 'cjs' },
 			{ file: pkg.module, format: 'es' }
