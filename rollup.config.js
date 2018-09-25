@@ -2,7 +2,6 @@ import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import { uglify } from "rollup-plugin-uglify";
 import buble from 'rollup-plugin-buble';
-import multiEntry from 'rollup-plugin-multi-entry';
 import pkg from './package.json';
 
 let isProd = process.env.buildTarget == 'prod';

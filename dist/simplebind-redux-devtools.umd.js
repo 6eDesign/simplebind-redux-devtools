@@ -1,2 +1,58 @@
-!function(e,n){"object"==typeof exports&&"undefined"!=typeof module?n(require("simplebind.js")):"function"==typeof define&&define.amd?define(["simplebind.js"],n):n(e.simpleBind)}(this,function(e){"use strict";var o,r=(e=e&&e.hasOwnProperty("default")?e.default:e).bind,n=e.registerPlugin,d=e.util,f=e.getState(),t=void 0!==window.__REDUX_DEVTOOLS_EXTENSION__,u=!1;t&&(o=window.__REDUX_DEVTOOLS_EXTENSION__.connect({latency:0})).subscribe(function(e){for(var n=[],t=arguments.length-1;0<t--;)n[t]=arguments[t+1];if("DISPATCH"===e.type&&e.state){var i=JSON.parse(e.state);for(var o in i)u=!0,r(o,i[o])}});var s=function(e){return 0==e.indexOf("__repeat")};n({name:"reduxDevToolsConnector",postBind:function(e,n){if(!s(e)){var t,i=0==u;return u&&(u=!1),!s(e)&&i&&o.send(e+"-bound",(f.boundObjects,t=d.extend({},f.boundObjects),Object.keys(t).filter(s).forEach(function(e){return delete t[e]}),t)),n}}})});
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('simplebind.js')) :
+  typeof define === 'function' && define.amd ? define(['simplebind.js'], factory) :
+  (factory(global.simpleBind));
+}(this, (function (simpleBind) { 'use strict';
+
+  simpleBind = simpleBind && simpleBind.hasOwnProperty('default') ? simpleBind['default'] : simpleBind;
+
+  var bind = simpleBind.bind;
+  var registerPlugin = simpleBind.registerPlugin;
+  var util = simpleBind.util;
+  var state = simpleBind.getState();
+
+  var useDevTools = typeof window.__REDUX_DEVTOOLS_EXTENSION__ != 'undefined'; 
+  var devTools, isBindDueToDevTools = false;
+  if(useDevTools) { 
+    devTools = window.__REDUX_DEVTOOLS_EXTENSION__.connect({latency: 0});
+    devTools.subscribe(function (message) {
+      var args = [], len = arguments.length - 1;
+      while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
+
+      if (message.type === 'DISPATCH' && message.state) {
+        var newState = JSON.parse(message.state); 
+        for(var key in newState) {
+          isBindDueToDevTools = true;
+          bind(key,newState[key]);
+        }
+      }
+    });
+  }
+
+  var isARepeatKey = function (name) { return name.indexOf('__repeat') == 0; };
+
+  var removeRepeatsFromState = function (obj) { 
+    var newObj = Object.keys(obj).reduce(function (newObj,key) { 
+      if(!isARepeatKey(key)) { newObj[key] = obj[key]; } 
+      return newObj;
+    },{}); 
+    return newObj;
+  }; 
+
+  var onBind = function (objName,obj) { 
+    if(isARepeatKey(objName)) { return; } 
+    var eligibleForDevTools = isBindDueToDevTools == false; 
+    if(isBindDueToDevTools) { isBindDueToDevTools = false; }
+    if(!isARepeatKey(objName) && eligibleForDevTools) {
+      devTools.send((objName + "-bound"), removeRepeatsFromState(state.boundObjects));
+    } 
+    return obj;
+  };
+
+  registerPlugin({
+    name: 'reduxDevToolsConnector',
+    postBind: onBind
+  });
+
+})));
 //# sourceMappingURL=simplebind-redux-devtools.umd.js.map

@@ -21,8 +21,10 @@ if(useDevTools) {
 let isARepeatKey = name => name.indexOf('__repeat') == 0;
 
 let removeRepeatsFromState = obj => { 
-  let newObj = util.extend({},state.boundObjects); 
-  Object.keys(newObj).filter(isARepeatKey).forEach(k => delete newObj[k]);
+  let newObj = Object.keys(obj).reduce((newObj,key) => { 
+    if(!isARepeatKey(key)) newObj[key] = obj[key]; 
+    return newObj;
+  },{}); 
   return newObj;
 }; 
 
