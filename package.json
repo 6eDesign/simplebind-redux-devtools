@@ -1,6 +1,6 @@
 {
   "name": "simplebind-redux-devtools",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Connector between simplebind.js and redux devtools",
   "main": "dist/simplebind-redux-devtools.cjs.js",
   "module": "dist/simplebind-redux-devtools.esm.js",

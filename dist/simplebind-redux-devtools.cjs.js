@@ -12,6 +12,7 @@ let devTools, isBindDueToDevTools = false;
 if(useDevTools) { 
   devTools = window.__REDUX_DEVTOOLS_EXTENSION__.connect({latency: 0});
   devTools.subscribe((message,...args) => {
+    console.log(`redux devtools message ${JSON.stringify(message,null,2)}`);
     if (message.type === 'DISPATCH' && message.state) {
       let newState = JSON.parse(message.state); 
       for(var key in newState) {
